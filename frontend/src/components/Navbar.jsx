@@ -11,7 +11,7 @@ export default function Navbar() {
 
   return (
     <nav style={styles.nav}>
-      <Link to="/products" style={styles.brand}>🛒 ShopEasy</Link>
+      <Link to="/products" style={styles.brand}>🛍️ ShopEasy</Link>
       <div style={styles.links}>
         <Link to="/products" style={styles.link}>Products</Link>
         <Link to="/cart" style={styles.link}>My Cart</Link>
@@ -23,7 +23,7 @@ export default function Navbar() {
 }
 
 const styles = {
-  nav: { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem 2rem", background: "#4f46e5", color: "white" },
+  nav: { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1rem 2rem", background: "#47510B", color: "white" },
   brand: { color: "white", textDecoration: "none", fontSize: "20px", fontWeight: "bold" },
   links: { display: "flex", gap: "1rem", alignItems: "center" },
   link: { color: "white", textDecoration: "none", fontSize: "15px" },

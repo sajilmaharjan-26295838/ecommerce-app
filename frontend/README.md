@@ -1,16 +1,97 @@
-# React + Vite
+# ShopEasy — E-Commerce Shopping Cart
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack single-page e-commerce application built with React, FastAPI, and MongoDB.
 
-Currently, two official plugins are available:
+## Problem Statement
+ShopEasy solves the need for a simple, fast, and intuitive online shopping experience. Users can browse products, search in real-time, and manage their shopping cart. Admins can manage products and monitor all user activity and carts from a dedicated dashboard.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tech Stack
+| Layer | Technology |
+|---|---|
+| Frontend | React (Vite), React Router, Axios |
+| Backend | FastAPI (Python) |
+| Database | MongoDB (local) with Motor (async driver) |
+| Authentication | JWT (python-jose) + bcrypt password hashing |
 
-## React Compiler
+## Features
+- User registration and login with JWT authentication
+- Role-based access control (user vs admin)
+- Live product search — filters in real-time as you type
+- Full CRUD operations on products (admin only)
+- Shopping cart — add, remove, and clear items
+- Admin dashboard — view all users and their carts
+- Single-page application — no page reloads
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## How to Run
 
-## Expanding the ESLint configuration
+### Prerequisites
+- Python 3.11+
+- Node.js 18+
+- MongoDB (running locally on port 27017)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Step 1 — Start MongoDB
+Make sure MongoDB is running:
+```bash
+brew services start mongodb-community
+```
+
+### Step 2 — Start Backend
+```bash
+cd backend
+source venv/bin/activate
+uvicorn main:app --reload
+```
+Backend runs at: http://localhost:8000
+API docs at: http://localhost:8000/docs
+
+### Step 3 — Start Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+```
+Frontend runs at: http://localhost:5173
+
+### Default Test Accounts
+| Role | Email | Password |
+|---|---|---|
+| Admin | admin@shop.com | admin123 |
+| User | sajil@shop.com | sajil123 |
+
+## Folder Structure
+```
+ecommerce-app/
+├── backend/
+│   ├── routes/
+│   │   ├── auth.py
+│   │   ├── products.py
+│   │   ├── cart.py
+│   │   └── admin.py
+│   ├── main.py
+│   ├── database.py
+│   └── requirements.txt
+├── frontend/
+│   └── src/
+│       ├── pages/
+│       │   ├── Login.jsx
+│       │   ├── Register.jsx
+│       │   ├── Products.jsx
+│       │   ├── Cart.jsx
+│       │   └── Admin.jsx
+│       ├── components/
+│       │   └── Navbar.jsx
+│       ├── api/
+│       │   └── index.js
+│       └── App.jsx
+├── database/
+│   ├── users.json
+│   ├── products.json
+│   └── carts.json
+└── README.md
+```
+## Workload
+This project was completed individually by Sajil Maharjan.
+
+All files were written by Sajil Maharjan including:
+- Backend: main.py, database.py, routes/auth.py, routes/products.py, routes/cart.py, routes/admin.py
+- Frontend: App.jsx, pages/Login.jsx, pages/Register.jsx, pages/Products.jsx, pages/Cart.jsx, pages/Admin.jsx, components/Navbar.jsx, api/index.js

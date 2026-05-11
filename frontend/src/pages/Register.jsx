@@ -67,7 +67,7 @@ const styles = {
   title: { margin: "0 0 0.5rem", color: "#050505", fontSize: "24px" },
   subtitle: { margin: "0 0 1.5rem", color: "#666" },
   input: { background: "#FFFFFF", color: "#000000", width: "100%", padding: "10px", marginBottom: "1rem", borderRadius: "8px", border: "1px solid #ddd", fontSize: "15px", boxSizing: "border-box" },
-  button: { width: "100%", padding: "10px", background: "#4f46e5", color: "white", border: "none", borderRadius: "8px", fontSize: "16px", cursor: "pointer" },
+  button: { width: "100%", padding: "10px", background: "#47510B", color: "white", border: "none", borderRadius: "8px", fontSize: "16px", cursor: "pointer" },
   error: { color: "red", marginBottom: "1rem" },
   link: { textAlign: "center", marginTop: "1rem", color: "#666" }
 }

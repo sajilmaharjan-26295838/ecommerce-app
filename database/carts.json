@@ -1,0 +1,2 @@
+{"_id":{"$oid":"6a0089a63e9b999cd512dd55"},"user_id":"admin@shop.com","items":[]}
+{"_id":{"$oid":"6a00b3b83e9b999cd512dd56"},"user_id":"sajil@shop.com","items":[{"product_id":"6a0083db3e9b999cd512dd51","name":"iPhone 15","price":"999","quantity":1}]}

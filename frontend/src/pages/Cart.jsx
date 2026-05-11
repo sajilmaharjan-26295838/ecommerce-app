@@ -138,17 +138,17 @@ const styles = {
   loading: { textAlign: "center", marginTop: "3rem", color: "#666" },
   emptyBox: { textAlign: "center", padding: "4rem", background: "white", borderRadius: "12px" },
   emptyText: { fontSize: "18px", color: "#666", marginBottom: "1rem" },
-  shopLink: { color: "#4f46e5", fontSize: "16px", textDecoration: "none", fontWeight: "500" },
+  shopLink: { color: "#47510B", fontSize: "16px", textDecoration: "none", fontWeight: "500" },
   card: { background: "white", borderRadius: "12px", padding: "1.25rem", marginBottom: "1rem", display: "flex", justifyContent: "space-between", alignItems: "center", boxShadow: "0 2px 8px rgba(0,0,0,0.06)" },
   cardLeft: { flex: 1 },
   cardRight: { textAlign: "right" },
   itemName: { fontSize: "18px", margin: "0 0 0.25rem", fontWeight: "600" },
   itemQty: { color: "#666", margin: "0 0 0.25rem", fontSize: "14px" },
   itemPrice: { color: "#888", margin: 0, fontSize: "14px" },
-  itemTotal: { fontSize: "20px", fontWeight: "bold", color: "#4f46e5", margin: "0 0 0.5rem" },
+  itemTotal: { fontSize: "20px", fontWeight: "bold", color: "#47510B", margin: "0 0 0.5rem" },
   removeBtn: { background: "#ef4444", color: "white", border: "none", padding: "6px 14px", borderRadius: "6px", cursor: "pointer", fontSize: "13px" },
   totalBox: { display: "flex", justifyContent: "space-between", alignItems: "center", background: "white", borderRadius: "12px", padding: "1.25rem", marginTop: "1rem", boxShadow: "0 2px 8px rgba(0,0,0,0.06)" },
   totalLabel: { fontSize: "20px", fontWeight: "600" },
-  totalAmount: { fontSize: "28px", fontWeight: "bold", color: "#4f46e5" },
-  checkoutBtn: { width: "100%", padding: "14px", background: "#4f46e5", color: "white", border: "none", borderRadius: "10px", fontSize: "16px", cursor: "pointer", marginTop: "1rem", fontWeight: "500" }
+  totalAmount: { fontSize: "28px", fontWeight: "bold", color: "#47510B" },
+  checkoutBtn: { width: "100%", padding: "14px", background: "#47510B", color: "white", border: "none", borderRadius: "10px", fontSize: "16px", cursor: "pointer", marginTop: "1rem", fontWeight: "500" }
 }

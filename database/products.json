@@ -1,0 +1,4 @@
+{"_id":{"$oid":"6a0083db3e9b999cd512dd51"},"name":"iPhone 15","price":"999","description":"Latest Apple smartphone with A16 chip","image":"https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=400"}
+{"_id":{"$oid":"6a0083fc3e9b999cd512dd52"},"name":"Nike Air Max","price":"150","description":"Classic running shoes","image":"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"}
+{"_id":{"$oid":"6a0084333e9b999cd512dd53"},"name":"MacBook Pro","price":"1999","description":"Apple laptop with M3 chip","image":"https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400"}
+{"_id":{"$oid":"6a0084773e9b999cd512dd54"},"name":"Samsung TV","price":"799","description":"55 inch 4k Smart TV","image":"https://images.unsplash.com/photo-1601944177325-f8867652837f?w=400"}

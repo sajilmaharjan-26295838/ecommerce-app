@@ -1,0 +1,2 @@
+{"_id":{"$oid":"69fcacd73e9b999cd512dd4e"},"name":"sajil","email":"sajil@shop.com","password":"$2b$12$hbrjRIddVU91DWTk7HwUSuh4mKi3Vz8TqdlDnTsnVNMEc/8c1rN3O","role":"user"}
+{"_id":{"$oid":"69fcad833e9b999cd512dd4f"},"name":"Admin","email":"admin@shop.com","password":"$2b$12$NMBzD9LzRqveUYJYDsj0ZeTMn.wXwvmUnF5YYgZLv0ZVN98BQaB8.","role":"admin"}
