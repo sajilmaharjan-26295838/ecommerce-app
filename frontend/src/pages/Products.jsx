@@ -39,6 +39,7 @@ export default function Products() {
         price: product.price,
         quantity: 1
       })
+      window.dispatchEvent(new CustomEvent("cartUpdated"))
       setMessage(`${product.name} added to cart!`)
       setTimeout(() => setMessage(""), 2000)
     } catch {
@@ -174,12 +175,14 @@ export default function Products() {
                   <h3 style={styles.productName}>{product.name}</h3>
                   <p style={styles.productDesc}>{product.description}</p>
                   <p style={styles.productPrice}>${parseFloat(product.price).toFixed(2)}</p>
-                  <button
-                    style={styles.cartBtn}
-                    onClick={() => handleAddToCart(product)}
-                  >
-                    Add to Cart
-                  </button>
+                  {role !== "admin" && (
+                    <button
+                      style={styles.cartBtn}
+                      onClick={() => handleAddToCart(product)}
+                    >
+                      Add to Cart
+                    </button>
+                  )}
                   {role === "admin" && (
                     <div style={styles.adminBtns}>
                       <button style={styles.editBtn} onClick={() => handleEdit(product)}>Edit</button>
@@ -206,7 +209,7 @@ const styles = {
   formCard: { background: "white", padding: "1.5rem", borderRadius: "12px", marginBottom: "1.5rem", boxShadow: "0 2px 8px rgba(0,0,0,0.08)" },
   formTitle: { margin: "0 0 1rem", fontSize: "18px" },
   input: { width: "100%", padding: "10px", marginBottom: "0.75rem", borderRadius: "8px", border: "1px solid #ddd", fontSize: "15px", boxSizing: "border-box" },
-  submitBtn: { background: "#", color: "white", border: "none", padding: "10px 24px", borderRadius: "8px", cursor: "pointer", fontSize: "15px" },
+  submitBtn: { background: "#47510B", color: "white", border: "none", padding: "10px 24px", borderRadius: "8px", cursor: "pointer", fontSize: "15px" },
   search: { width: "100%", padding: "12px 16px", borderRadius: "10px", border: "1px solid #ddd", fontSize: "16px", marginBottom: "1.5rem", boxSizing: "border-box" },
   empty: { color: "#888", fontSize: "16px", textAlign: "center", marginTop: "2rem" },
   grid: { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", gap: "1.5rem" },

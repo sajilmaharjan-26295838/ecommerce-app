@@ -9,7 +9,7 @@ load_dotenv()
 
 router = APIRouter()
 pwd = CryptContext(schemes=["bcrypt"], deprecated="auto")
-SECRET = "mysecretkey123"
+SECRET = os.getenv("JWT_SECRET", "mysecretkey123")
 
 @router.post("/register")
 async def register(data: dict):

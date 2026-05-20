@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import Navbar from "../components/Navbar"
-import { getCart, removeFromCart, clearCart } from "../api"
+import { getCart, removeFromCart, clearCart, updateCartItem } from "../api"
 
 export default function Cart() {
   const [cart, setCart] = useState({ items: [] })
@@ -29,9 +29,21 @@ export default function Cart() {
       await removeFromCart(email, productId)
       setMessage("Item removed!")
       fetchCart()
+      window.dispatchEvent(new CustomEvent("cartUpdated"))
       setTimeout(() => setMessage(""), 2000)
     } catch {
       setMessage("Failed to remove item")
+    }
+  }
+
+  const handleQuantityChange = async (productId, newQty) => {
+    if (newQty < 1) return
+    try {
+      await updateCartItem(email, productId, newQty)
+      fetchCart()
+      window.dispatchEvent(new CustomEvent("cartUpdated"))
+    } catch {
+      setMessage("Failed to update quantity")
     }
   }
 
@@ -41,6 +53,7 @@ export default function Cart() {
       await clearCart(email)
       setMessage("Cart cleared!")
       fetchCart()
+      window.dispatchEvent(new CustomEvent("cartUpdated"))
       setTimeout(() => setMessage(""), 2000)
     } catch {
       setMessage("Failed to clear cart")
@@ -92,7 +105,17 @@ export default function Cart() {
               <div key={index} style={styles.card}>
                 <div style={styles.cardLeft}>
                   <h3 style={styles.itemName}>{item.name}</h3>
-                  <p style={styles.itemQty}>Quantity: {item.quantity}</p>
+                  <div style={styles.qtyRow}>
+                    <button
+                      style={styles.qtyBtn}
+                      onClick={() => handleQuantityChange(item.product_id, item.quantity - 1)}
+                    >−</button>
+                    <span style={styles.qtyNum}>{item.quantity}</span>
+                    <button
+                      style={styles.qtyBtn}
+                      onClick={() => handleQuantityChange(item.product_id, item.quantity + 1)}
+                    >+</button>
+                  </div>
                   <p style={styles.itemPrice}>
                     ${parseFloat(item.price).toFixed(2)} each
                   </p>
@@ -143,7 +166,9 @@ const styles = {
   cardLeft: { flex: 1 },
   cardRight: { textAlign: "right" },
   itemName: { fontSize: "18px", margin: "0 0 0.25rem", fontWeight: "600" },
-  itemQty: { color: "#666", margin: "0 0 0.25rem", fontSize: "14px" },
+  qtyRow: { display: "flex", alignItems: "center", gap: "0.5rem", margin: "0.25rem 0" },
+  qtyBtn: { width: "28px", height: "28px", border: "1px solid #ddd", borderRadius: "6px", background: "white", cursor: "pointer", fontSize: "16px", lineHeight: 1, display: "flex", alignItems: "center", justifyContent: "center" },
+  qtyNum: { fontSize: "15px", fontWeight: "600", minWidth: "24px", textAlign: "center" },
   itemPrice: { color: "#888", margin: 0, fontSize: "14px" },
   itemTotal: { fontSize: "20px", fontWeight: "bold", color: "#47510B", margin: "0 0 0.5rem" },
   removeBtn: { background: "#ef4444", color: "white", border: "none", padding: "6px 14px", borderRadius: "6px", cursor: "pointer", fontSize: "13px" },

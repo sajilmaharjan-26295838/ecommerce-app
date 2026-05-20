@@ -29,8 +29,12 @@ export default function Admin() {
     }
   }
 
-  // Find cart for a specific user
+  const adminEmails = new Set(users.filter(u => u.role === "admin").map(u => u.email))
+  const regularUsers = users.filter(u => u.role !== "admin")
+  const userCarts = carts.filter(c => !adminEmails.has(c.user_id))
+
   const getUserCart = (userEmail) => {
+    if (adminEmails.has(userEmail)) return null
     return carts.find(c => c.user_id === userEmail)
   }
 
@@ -55,16 +59,16 @@ export default function Admin() {
         {/* Stats Row */}
         <div style={styles.statsRow}>
           <div style={styles.statCard}>
-            <p style={styles.statNumber}>{users.length}</p>
+            <p style={styles.statNumber}>{regularUsers.length}</p>
             <p style={styles.statLabel}>Total Users</p>
           </div>
           <div style={styles.statCard}>
-            <p style={styles.statNumber}>{carts.length}</p>
+            <p style={styles.statNumber}>{userCarts.length}</p>
             <p style={styles.statLabel}>Active Carts</p>
           </div>
           <div style={styles.statCard}>
             <p style={styles.statNumber}>
-              {carts.reduce((sum, c) => sum + (c.items?.length || 0), 0)}
+              {userCarts.reduce((sum, c) => sum + (c.items?.length || 0), 0)}
             </p>
             <p style={styles.statLabel}>Total Items in Carts</p>
           </div>
@@ -89,10 +93,10 @@ export default function Admin() {
         {/* Users Tab */}
         {activeTab === "users" && (
           <div>
-            {users.length === 0 ? (
+            {regularUsers.length === 0 ? (
               <p style={styles.empty}>No users found</p>
             ) : (
-              users.map((user, index) => {
+              regularUsers.map((user, index) => {
                 const userCart = getUserCart(user.email)
                 const itemCount = userCart?.items?.length || 0
                 const cartTotal = userCart?.items?.reduce((sum, item) =>
@@ -118,7 +122,7 @@ export default function Admin() {
                       </div>
                     </div>
 
-                    {/* User Cart Summary */}
+                    {/* Cart Summary */}
                     <div style={styles.cartSummary}>
                       <span style={styles.cartInfo}>
                         🛒 {itemCount} items in cart
@@ -130,7 +134,6 @@ export default function Admin() {
                       )}
                     </div>
 
-                    {/* Cart Items */}
                     {userCart?.items?.length > 0 && (
                       <div style={styles.itemsList}>
                         {userCart.items.map((item, i) => (
@@ -154,10 +157,10 @@ export default function Admin() {
         {/* Carts Tab */}
         {activeTab === "carts" && (
           <div>
-            {carts.length === 0 ? (
+            {userCarts.length === 0 ? (
               <p style={styles.empty}>No carts found</p>
             ) : (
-              carts.map((cart, index) => (
+              userCarts.map((cart, index) => (
                 <div key={index} style={styles.userCard}>
                   <h3 style={styles.cartUser}>User: {cart.user_id}</h3>
                   {cart.items?.length === 0 ? (

@@ -1,8 +1,10 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from database import db
 from bson import ObjectId
+from deps import require_admin
 
 router = APIRouter()
+
 def fix_id(doc):
     doc["_id"] = str(doc["_id"])
     return doc
@@ -20,16 +22,16 @@ async def get_product(id: str):
     return fix_id(product)
 
 @router.post("/")
-async def create_product(data: dict):
+async def create_product(data: dict, _=Depends(require_admin)):
     result = await db.products.insert_one(data)
     return {"id": str(result.inserted_id)}
 
 @router.put("/{id}")
-async def update_product(id: str, data: dict):
+async def update_product(id: str, data: dict, _=Depends(require_admin)):
     await db.products.update_one({"_id": ObjectId(id)}, {"$set": data})
     return {"msg": "Product updated"}
 
 @router.delete("/{id}")
-async def delete_product(id: str):
+async def delete_product(id: str, _=Depends(require_admin)):
     await db.products.delete_one({"_id": ObjectId(id)})
     return {"msg": "Product deleted"}

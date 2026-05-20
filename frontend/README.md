@@ -1,9 +1,9 @@
-# ShopEasy — E-Commerce Shopping Cart
+# BgMart — E-Commerce Shopping Cart
 
 A full-stack single-page e-commerce application built with React, FastAPI, and MongoDB.
 
 ## Problem Statement
-ShopEasy solves the need for a simple, fast, and intuitive online shopping experience. Users can browse products, search in real-time, and manage their shopping cart. Admins can manage products and monitor all user activity and carts from a dedicated dashboard.
+ BgMart solves the need for a simple, fast, and intuitive online shopping experience. Users can browse products, search in real-time, and manage their shopping cart. Admins can manage products and monitor all user activity and carts from a dedicated dashboard.
 
 ## Tech Stack
 | Layer | Technology |
