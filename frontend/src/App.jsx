@@ -4,6 +4,7 @@ import Register from "./pages/Register"
 import Products from "./pages/Products"
 import Cart from "./pages/Cart"
 import Admin from "./pages/Admin"
+import Profile from "./pages/Profile"
 
 function PrivateRoute({ children }) {
   const token = localStorage.getItem("token")
@@ -24,6 +25,7 @@ export default function App() {
         <Route path="/products" element={<PrivateRoute><Products /></PrivateRoute>} />
         <Route path="/cart" element={<PrivateRoute><Cart /></PrivateRoute>} />
         <Route path="/admin" element={<AdminRoute><Admin /></AdminRoute>} />
+        <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
       </Routes>
     </BrowserRouter>
   )

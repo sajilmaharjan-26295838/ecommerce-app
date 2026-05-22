@@ -46,6 +46,7 @@ export default function Navbar() {
           </Link>
         )}
         {role === "admin" && <Link to="/admin" style={styles.link}>Admin</Link>}
+        <Link to="/profile" style={styles.link}>Profile</Link>
         <button onClick={handleLogout} style={styles.logout}>Logout</button>
       </div>
     </nav>
