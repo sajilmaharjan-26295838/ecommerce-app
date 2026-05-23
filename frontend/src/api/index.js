@@ -44,3 +44,4 @@ export const clearCart = (userId) => API.delete(`/cart/${userId}/clear`)
 // Admin
 export const getAllUsers = () => API.get("/admin/users")
 export const getAllCarts = () => API.get("/admin/carts")
+export const toggleUserStatus = (userId) => API.patch(`/admin/users/${userId}/toggle-status`)

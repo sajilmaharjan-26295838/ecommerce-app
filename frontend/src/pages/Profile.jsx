@@ -60,93 +60,82 @@ export default function Profile() {
     }
   }
 
-  if (loading) return <div><Navbar /><p style={styles.loading}>Loading...</p></div>
+  if (loading) return (
+    <div className="profile-page">
+      <Navbar />
+      <p className="profile-loading">Loading…</p>
+    </div>
+  )
+
+  const badgeColor = profile.role === "admin" ? "#c9a84c" : "#5db87c"
 
   return (
-    <div style={styles.page}>
+    <div className="profile-page">
       <Navbar />
-      <div style={styles.container}>
-        <h2 style={styles.heading}>My Profile</h2>
+      <div className="profile-container">
+        <h2 className="profile-heading">Profile</h2>
 
-        {message && <div style={styles.success}>{message}</div>}
-        {error && <div style={styles.errorBox}>{error}</div>}
+        {message && <div className="msg-success">{message}</div>}
+        {error   && <div className="msg-error">{error}</div>}
 
-        {/* Account Info */}
-        <div style={styles.card}>
-          <h3 style={styles.cardTitle}>Account Information</h3>
-          <div style={styles.infoRow}>
-            <span style={styles.label}>Email</span>
-            <span style={styles.value}>{profile.email}</span>
+        <div className="profile-card">
+          <p className="profile-card__title">Account Information</p>
+          <div className="profile-info-row">
+            <span className="profile-label">Email</span>
+            <span className="profile-value">{profile.email}</span>
           </div>
-          <div style={styles.infoRow}>
-            <span style={styles.label}>Role</span>
-            <span style={{ ...styles.badge, background: profile.role === "admin" ? "#47510B" : "#16a34a" }}>
+          <div className="profile-info-row">
+            <span className="profile-label">Role</span>
+            <span
+              className="profile-badge"
+              style={{ background: badgeColor }}
+            >
               {profile.role}
             </span>
           </div>
         </div>
 
-        {/* Edit Name */}
-        <div style={styles.card}>
-          <h3 style={styles.cardTitle}>Edit Name</h3>
-          <form onSubmit={handleUpdateName} style={styles.form}>
+        <div className="profile-card">
+          <p className="profile-card__title">Edit Name</p>
+          <form onSubmit={handleUpdateName} className="profile-form">
             <input
-              style={styles.input}
+              className="profile-input"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Your name"
             />
-            <button type="submit" style={styles.btn}>Save Name</button>
+            <button type="submit" className="profile-btn">Save Name</button>
           </form>
         </div>
 
-        {/* Change Password */}
-        <div style={styles.card}>
-          <h3 style={styles.cardTitle}>Change Password</h3>
-          <form onSubmit={handleChangePassword} style={styles.form}>
+        <div className="profile-card">
+          <p className="profile-card__title">Change Password</p>
+          <form onSubmit={handleChangePassword} className="profile-form">
             <input
-              style={styles.input}
+              className="profile-input"
               type="password"
               placeholder="Current password"
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
             />
             <input
-              style={styles.input}
+              className="profile-input"
               type="password"
               placeholder="New password (min 6 characters)"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
             />
             <input
-              style={styles.input}
+              className="profile-input"
               type="password"
               placeholder="Confirm new password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
-            <button type="submit" style={styles.btn}>Change Password</button>
+            <button type="submit" className="profile-btn">Change Password</button>
           </form>
         </div>
       </div>
     </div>
   )
-}
-
-const styles = {
-  page: { minHeight: "100vh", background: "#f5f5f0" },
-  container: { maxWidth: "540px", margin: "2rem auto", padding: "0 1rem" },
-  heading: { fontSize: "24px", fontWeight: "bold", color: "#47510B", marginBottom: "1.5rem" },
-  loading: { textAlign: "center", marginTop: "2rem", color: "#666" },
-  success: { background: "#dcfce7", color: "#15803d", padding: "10px 14px", borderRadius: "8px", marginBottom: "1rem", fontSize: "14px" },
-  errorBox: { background: "#fee2e2", color: "#b91c1c", padding: "10px 14px", borderRadius: "8px", marginBottom: "1rem", fontSize: "14px" },
-  card: { background: "white", borderRadius: "12px", padding: "1.5rem", marginBottom: "1.5rem", boxShadow: "0 1px 4px rgba(0,0,0,0.08)" },
-  cardTitle: { fontSize: "16px", fontWeight: "600", color: "#333", marginBottom: "1rem", borderBottom: "1px solid #eee", paddingBottom: "0.5rem" },
-  infoRow: { display: "flex", alignItems: "center", justifyContent: "space-between", padding: "6px 0" },
-  label: { color: "#666", fontSize: "14px" },
-  value: { color: "#333", fontSize: "14px", fontWeight: "500" },
-  badge: { color: "white", padding: "2px 10px", borderRadius: "12px", fontSize: "12px", fontWeight: "600", textTransform: "capitalize" },
-  form: { display: "flex", flexDirection: "column", gap: "0.75rem" },
-  input: { padding: "10px 12px", border: "1px solid #ddd", borderRadius: "8px", fontSize: "14px", outline: "none" },
-  btn: { background: "#47510B", color: "white", border: "none", padding: "10px", borderRadius: "8px", cursor: "pointer", fontSize: "14px", fontWeight: "600" },
 }

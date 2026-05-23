@@ -22,6 +22,7 @@ async def register(data: dict):
     data["password"] = pwd.hash(data["password"])
     if "role" not in data:
         data["role"] = "user"
+    data["is_active"] = True
     await db.users.insert_one(data)
     return {"msg": "Registered successfully"}
 
@@ -30,6 +31,9 @@ async def login(data: dict):
     user = await db.users.find_one({"email": data["email"]})
     if not user or not pwd.verify(data["password"], user["password"]):
         raise HTTPException(status_code=401, detail="Invalid credentials")
+    # is_active defaults to True for existing users that predate this field
+    if user.get("is_active", True) is False:
+        raise HTTPException(status_code=403, detail="Your account has been deactivated. Please contact support.")
     token = jwt.encode(
         {
             "sub": str(user["_id"]),
