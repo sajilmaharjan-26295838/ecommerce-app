@@ -1,33 +1,17 @@
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 import { Link, useNavigate, useLocation } from "react-router-dom"
-import { getCart } from "../api"
+import { useCart } from "../context/CartContext"
 
 export default function Navbar() {
   const navigate = useNavigate()
   const location = useLocation()
   const role = localStorage.getItem("role")
-  const email = localStorage.getItem("email")
-  const [cartCount, setCartCount] = useState(0)
+  const { cartCount, refreshCart } = useCart()
 
-  const refreshCount = () => {
-    if (role !== "admin" && email) {
-      getCart(email)
-        .then(res => {
-          const total = res.data.items?.reduce((sum, i) => sum + i.quantity, 0) || 0
-          setCartCount(total)
-        })
-        .catch(() => {})
-    }
-  }
-
+  // Refresh cart count whenever the route changes
   useEffect(() => {
-    refreshCount()
-  }, [location.pathname])
-
-  useEffect(() => {
-    window.addEventListener("cartUpdated", refreshCount)
-    return () => window.removeEventListener("cartUpdated", refreshCount)
-  }, [])
+    refreshCart()
+  }, [location.pathname, refreshCart])
 
   const handleLogout = () => {
     localStorage.clear()

@@ -8,8 +8,16 @@ export default function Login() {
   const [error, setError] = useState("")
   const navigate = useNavigate()
 
+  const validate = () => {
+    if (!email.trim() || !password) return "All fields are required"
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return "Enter a valid email address"
+    return null
+  }
+
   const handleLogin = async (e) => {
     e.preventDefault()
+    const validationError = validate()
+    if (validationError) return setError(validationError)
     setError("")
     try {
       const res = await login({ email, password })

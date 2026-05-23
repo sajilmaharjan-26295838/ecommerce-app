@@ -10,7 +10,9 @@ load_dotenv()
 
 router = APIRouter()
 pwd = CryptContext(schemes=["bcrypt"], deprecated="auto")
-SECRET = os.getenv("JWT_SECRET", "mysecretkey123")
+SECRET = os.getenv("JWT_SECRET")
+if not SECRET:
+    raise RuntimeError("JWT_SECRET environment variable is not set")
 
 @router.post("/register")
 async def register(data: dict):

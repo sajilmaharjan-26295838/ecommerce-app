@@ -18,7 +18,8 @@ A full-stack single-page e-commerce application built with React, FastAPI, and M
 - Role-based access control (user vs admin)
 - Live product search — filters in real-time as you type
 - Full CRUD operations on products (admin only)
-- Shopping cart — add, remove, and clear items
+- Shopping cart — add, remove, update quantity, and clear items
+- Checkout flow is out of scope for this assignment (button disabled)
 - Admin dashboard — view all users and their carts
 - Single-page application — no page reloads
 

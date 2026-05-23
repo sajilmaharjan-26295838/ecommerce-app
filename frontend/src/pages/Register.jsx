@@ -9,8 +9,17 @@ export default function Register() {
   const [error, setError] = useState("")
   const navigate = useNavigate()
 
+  const validate = () => {
+    if (!name.trim() || !email.trim() || !password) return "All fields are required"
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return "Enter a valid email address"
+    if (password.length < 6) return "Password must be at least 6 characters"
+    return null
+  }
+
   const handleRegister = async (e) => {
     e.preventDefault()
+    const validationError = validate()
+    if (validationError) return setError(validationError)
     setError("")
     try {
       await register({ name, email, password })

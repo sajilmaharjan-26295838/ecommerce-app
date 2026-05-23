@@ -4,7 +4,9 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-SECRET = os.getenv("JWT_SECRET", "mysecretkey123")
+SECRET = os.getenv("JWT_SECRET")
+if not SECRET:
+    raise RuntimeError("JWT_SECRET environment variable is not set")
 
 def _decode(authorization: str) -> dict:
     if not authorization or not authorization.startswith("Bearer "):

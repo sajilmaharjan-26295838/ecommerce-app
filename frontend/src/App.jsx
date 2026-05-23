@@ -5,6 +5,7 @@ import Products from "./pages/Products"
 import Cart from "./pages/Cart"
 import Admin from "./pages/Admin"
 import Profile from "./pages/Profile"
+import ErrorBoundary from "./components/ErrorBoundary"
 
 function PrivateRoute({ children }) {
   const token = localStorage.getItem("token")
@@ -19,6 +20,7 @@ function AdminRoute({ children }) {
 export default function App() {
   return (
     <BrowserRouter>
+      <ErrorBoundary>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -27,6 +29,7 @@ export default function App() {
         <Route path="/admin" element={<AdminRoute><Admin /></AdminRoute>} />
         <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
       </Routes>
+      </ErrorBoundary>
     </BrowserRouter>
   )
 }

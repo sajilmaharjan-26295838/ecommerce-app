@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import Navbar from "../components/Navbar"
 import { getProducts, createProduct, updateProduct, deleteProduct, addToCart } from "../api"
+import { useCart } from "../context/CartContext"
 
 export default function Products() {
   const [products, setProducts] = useState([])
@@ -11,6 +12,7 @@ export default function Products() {
   const [form, setForm] = useState({ name: "", price: "", description: "", image: "" })
   const role = localStorage.getItem("role")
   const email = localStorage.getItem("email")
+  const { refreshCart } = useCart()
 
   useEffect(() => {
     fetchProducts()
@@ -39,7 +41,7 @@ export default function Products() {
         price: product.price,
         quantity: 1
       })
-      window.dispatchEvent(new CustomEvent("cartUpdated"))
+      refreshCart()
       setMessage(`${product.name} added to cart!`)
       setTimeout(() => setMessage(""), 2000)
     } catch {

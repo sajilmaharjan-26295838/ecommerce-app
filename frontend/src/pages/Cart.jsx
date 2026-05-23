@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react"
 import Navbar from "../components/Navbar"
 import { getCart, removeFromCart, clearCart, updateCartItem } from "../api"
+import { useCart } from "../context/CartContext"
 
 export default function Cart() {
   const [cart, setCart] = useState({ items: [] })
   const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(true)
   const email = localStorage.getItem("email")
+  const { refreshCart } = useCart()
 
   useEffect(() => {
     fetchCart()
@@ -29,7 +31,7 @@ export default function Cart() {
       await removeFromCart(email, productId)
       setMessage("Item removed!")
       fetchCart()
-      window.dispatchEvent(new CustomEvent("cartUpdated"))
+      refreshCart()
       setTimeout(() => setMessage(""), 2000)
     } catch {
       setMessage("Failed to remove item")
@@ -41,7 +43,7 @@ export default function Cart() {
     try {
       await updateCartItem(email, productId, newQty)
       fetchCart()
-      window.dispatchEvent(new CustomEvent("cartUpdated"))
+      refreshCart()
     } catch {
       setMessage("Failed to update quantity")
     }
@@ -53,7 +55,7 @@ export default function Cart() {
       await clearCart(email)
       setMessage("Cart cleared!")
       fetchCart()
-      window.dispatchEvent(new CustomEvent("cartUpdated"))
+      refreshCart()
       setTimeout(() => setMessage(""), 2000)
     } catch {
       setMessage("Failed to clear cart")
@@ -140,9 +142,9 @@ export default function Cart() {
               <span style={styles.totalAmount}>${total.toFixed(2)}</span>
             </div>
 
-            {/* Checkout Button */}
-            <button style={styles.checkoutBtn}>
-              Proceed to Checkout
+            {/* Checkout — not in scope for this assignment */}
+            <button style={styles.checkoutBtn} disabled title="Checkout is not in scope for this assignment">
+              Proceed to Checkout (Coming Soon)
             </button>
           </div>
         )}
@@ -175,5 +177,5 @@ const styles = {
   totalBox: { display: "flex", justifyContent: "space-between", alignItems: "center", background: "white", borderRadius: "12px", padding: "1.25rem", marginTop: "1rem", boxShadow: "0 2px 8px rgba(0,0,0,0.06)" },
   totalLabel: { fontSize: "20px", fontWeight: "600" },
   totalAmount: { fontSize: "28px", fontWeight: "bold", color: "#47510B" },
-  checkoutBtn: { width: "100%", padding: "14px", background: "#47510B", color: "white", border: "none", borderRadius: "10px", fontSize: "16px", cursor: "pointer", marginTop: "1rem", fontWeight: "500" }
+  checkoutBtn: { width: "100%", padding: "14px", background: "#aaa", color: "white", border: "none", borderRadius: "10px", fontSize: "16px", cursor: "not-allowed", marginTop: "1rem", fontWeight: "500", opacity: 0.7 }
 }
