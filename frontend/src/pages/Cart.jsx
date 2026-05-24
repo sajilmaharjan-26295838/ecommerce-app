@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import Navbar from "../components/Navbar"
 import { getCart, removeFromCart, clearCart, updateCartItem } from "../api"
 import { useCart } from "../context/CartContext"
@@ -7,8 +8,12 @@ export default function Cart() {
   const [cart, setCart] = useState({ items: [] })
   const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(true)
+  const [orderPlaced, setOrderPlaced] = useState(false)
+  const [orderSummary, setOrderSummary] = useState({ items: [], total: 0 })
+  const [countdown, setCountdown] = useState(3)
   const email = localStorage.getItem("email")
   const { refreshCart } = useCart()
+  const navigate = useNavigate()
 
   useEffect(() => { fetchCart() }, [])
 
@@ -59,6 +64,30 @@ export default function Cart() {
       setMessage("Failed to clear cart")
     }
   }
+
+  const handleCheckout = async () => {
+    try {
+      // Snapshot the cart before clearing it for the order summary popup
+      const items = cart.items
+      const total = items.reduce((sum, item) =>
+        sum + (parseFloat(item.price) * item.quantity), 0)
+      await clearCart(email)
+      refreshCart()
+      setOrderSummary({ items, total })
+      setCountdown(7)
+      setOrderPlaced(true)
+    } catch {
+      setMessage("Checkout failed. Please try again.")
+    }
+  }
+
+  // Countdown timer — navigates to /products when it hits 0
+  useEffect(() => {
+    if (!orderPlaced) return
+    if (countdown === 0) { navigate("/products"); return }
+    const timer = setTimeout(() => setCountdown(c => c - 1), 1000)
+    return () => clearTimeout(timer)
+  }, [orderPlaced, countdown, navigate])
 
   const total = cart.items?.reduce((sum, item) =>
     sum + (parseFloat(item.price) * item.quantity), 0) || 0
@@ -138,12 +167,47 @@ export default function Cart() {
               <span className="cart-total__amount">${total.toFixed(2)}</span>
             </div>
 
-            <button className="cart-checkout-btn" disabled title="Coming soon">
-              Proceed to Checkout — Coming Soon
+            <button className="cart-checkout-btn" onClick={handleCheckout}>
+              Proceed to Checkout
             </button>
           </div>
         )}
       </div>
+
+      {/* Order confirmation modal */}
+      {orderPlaced && (
+        <div className="modal-overlay">
+          <div className="modal-box">
+            <div className="modal-icon">🎉</div>
+            <h2 className="modal-title">Order Placed!</h2>
+            <p className="modal-subtitle">Thank you for your purchase.</p>
+
+            <div className="modal-items">
+              {orderSummary.items.map((item, i) => (
+                <div key={i} className="modal-item-row">
+                  <span className="modal-item-name">{item.name}</span>
+                  <span className="modal-item-qty">×{item.quantity}</span>
+                  <span className="modal-item-subtotal">
+                    ${(parseFloat(item.price) * item.quantity).toFixed(2)}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <div className="modal-total-row">
+              <span className="modal-total-label">Total Paid</span>
+              <span className="modal-total-amount">${orderSummary.total.toFixed(2)}</span>
+            </div>
+
+            <p className="modal-countdown">
+              Redirecting in <strong>{countdown}s</strong>…
+            </p>
+            <button className="modal-btn" onClick={() => navigate("/products")}>
+              Continue Shopping
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
