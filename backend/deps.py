@@ -8,6 +8,7 @@ SECRET = os.getenv("JWT_SECRET")
 if not SECRET:
     raise RuntimeError("JWT_SECRET environment variable is not set")
 
+# _decode is a private helper so require_auth and require_admin share one decoding path
 def _decode(authorization: str) -> dict:
     if not authorization or not authorization.startswith("Bearer "):
         raise HTTPException(status_code=401, detail="Not authenticated")

@@ -67,7 +67,7 @@ export default function Cart() {
 
   const handleCheckout = async () => {
     try {
-      // Snapshot the cart before clearing it for the order summary popup
+      // Snapshot cart contents before clearing — the modal needs this data after the cart is empty
       const items = cart.items
       const total = items.reduce((sum, item) =>
         sum + (parseFloat(item.price) * item.quantity), 0)
@@ -81,7 +81,8 @@ export default function Cart() {
     }
   }
 
-  // Countdown timer — navigates to /products when it hits 0
+  // Countdown timer — ticks every second and navigates when it hits 0.
+  // Cleanup (return clearTimeout) prevents a stale tick firing if the component unmounts early.
   useEffect(() => {
     if (!orderPlaced) return
     if (countdown === 0) { navigate("/products"); return }
@@ -95,7 +96,23 @@ export default function Cart() {
   if (loading) return (
     <div className="cart-page">
       <Navbar />
-      <p className="cart-loading">Loading cart…</p>
+      <div className="cart-container">
+        <div className="cart-header">
+          <h2 className="cart-title"><span>Your</span>Cart</h2>
+        </div>
+        {[...Array(3)].map((_, i) => (
+          <div key={i} className="cart-item">
+            <div className="cart-item__left" style={{ flex: 1 }}>
+              <div className="skeleton skeleton--title" />
+              <div className="skeleton skeleton--text" />
+              <div className="skeleton skeleton--price" />
+            </div>
+            <div className="cart-item__right">
+              <div className="skeleton skeleton--price" style={{ width: "60px" }} />
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   )
 

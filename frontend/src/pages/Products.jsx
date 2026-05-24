@@ -7,6 +7,7 @@ export default function Products() {
   const [products, setProducts] = useState([])
   const [query, setQuery] = useState("")
   const [message, setMessage] = useState("")
+  const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
   const [editingProduct, setEditingProduct] = useState(null)
   const [form, setForm] = useState({ name: "", price: "", description: "", image: "" })
@@ -22,9 +23,12 @@ export default function Products() {
       setProducts(res.data)
     } catch {
       setMessage("Failed to load products")
+    } finally {
+      setLoading(false)
     }
   }
 
+  // Client-side filter — no extra API call; derived from already-fetched list
   const filtered = products.filter(p =>
     p.name.toLowerCase().includes(query.toLowerCase()) ||
     p.description?.toLowerCase().includes(query.toLowerCase())
@@ -163,7 +167,21 @@ export default function Products() {
           onChange={e => setQuery(e.target.value)}
         />
 
-        {filtered.length === 0 ? (
+        {loading ? (
+          <div className="products-grid">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="product-card">
+                <div className="skeleton skeleton--block" />
+                <div className="product-card__body">
+                  <div className="skeleton skeleton--title" />
+                  <div className="skeleton skeleton--text" />
+                  <div className="skeleton skeleton--price" />
+                  <div className="skeleton skeleton--btn" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : filtered.length === 0 ? (
           <p className="products-empty">
             {query ? `No results for "${query}"` : "No products available."}
           </p>
@@ -173,7 +191,7 @@ export default function Products() {
               <div
                 key={product._id}
                 className="product-card"
-                style={{ animationDelay: `${i * 0.05}s` }}
+                style={{ animationDelay: `${i * 0.05}s` }} /* stagger card entrance */
               >
                 {product.image && (
                   <img

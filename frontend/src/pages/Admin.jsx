@@ -33,6 +33,7 @@ export default function Admin() {
     }
   }
 
+  // Set gives O(1) lookup when filtering carts — avoids O(n²) with a nested array search
   const adminEmails = new Set(users.filter(u => u.role === "admin").map(u => u.email))
   const regularUsers = users.filter(u => u.role !== "admin")
   const userCarts = carts.filter(c => !adminEmails.has(c.user_id))
@@ -45,7 +46,20 @@ export default function Admin() {
   if (loading) return (
     <div className="admin-page">
       <Navbar />
-      <p className="admin-loading">Loading admin data…</p>
+      <div className="admin-container">
+        <h2 className="admin-title"><span>Overview</span>Dashboard</h2>
+        <div className="admin-stats">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="admin-stat-card">
+              <div className="skeleton skeleton--number" />
+              <div className="skeleton skeleton--label" />
+            </div>
+          ))}
+        </div>
+        {[...Array(4)].map((_, i) => (
+          <div key={i} className="admin-user-card skeleton--card skeleton" style={{ marginBottom: "1rem" }} />
+        ))}
+      </div>
     </div>
   )
 

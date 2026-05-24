@@ -63,7 +63,16 @@ export default function Profile() {
   if (loading) return (
     <div className="profile-page">
       <Navbar />
-      <p className="profile-loading">Loading…</p>
+      <div className="profile-container">
+        <h2 className="profile-heading">Profile</h2>
+        {[...Array(3)].map((_, i) => (
+          <div key={i} className="profile-card" style={{ minHeight: "90px" }}>
+            <div className="skeleton skeleton--title" style={{ width: "40%", marginBottom: "1rem" }} />
+            <div className="skeleton skeleton--text" />
+            <div className="skeleton skeleton--text" style={{ width: "60%" }} />
+          </div>
+        ))}
+      </div>
     </div>
   )
 

@@ -9,11 +9,13 @@ API.interceptors.request.use((config) => {
   return config
 })
 
-// Redirect to login on expired / invalid token
+// Redirect to login on expired / invalid token (protected routes only)
+// Skip auth endpoints — a 401 there means wrong credentials, not an expired session
 API.interceptors.response.use(
   (res) => res,
   (err) => {
-    if (err.response?.status === 401) {
+    const url = err.config?.url || ""
+    if (err.response?.status === 401 && !url.includes("/auth/")) {
       localStorage.clear()
       window.location.href = "/"
     }

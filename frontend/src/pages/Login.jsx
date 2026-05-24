@@ -6,6 +6,7 @@ export default function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
   const validate = () => {
@@ -18,7 +19,7 @@ export default function Login() {
     e.preventDefault()
     const validationError = validate()
     if (validationError) return setError(validationError)
-    setError("")
+    setLoading(true)
     try {
       const res = await login({ email, password })
       localStorage.setItem("token", res.data.token)
@@ -27,6 +28,8 @@ export default function Login() {
       navigate("/products")
     } catch {
       setError("Invalid email or password")
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -55,7 +58,9 @@ export default function Login() {
             onChange={e => setPassword(e.target.value)}
             required
           />
-          <button className="auth-btn" type="submit">Sign In</button>
+          <button className="auth-btn" type="submit" disabled={loading}>
+            {loading ? "Signing in…" : "Sign In"}
+          </button>
         </form>
         <p className="auth-link">
           No account? <Link to="/register">Create one</Link>

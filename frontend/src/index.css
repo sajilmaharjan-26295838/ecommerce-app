@@ -848,6 +848,28 @@ body::before {
   font-family:var(--font-display); font-size:18px; font-style:italic;
 }
 
+/* ── Skeleton Loading ────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface-3) 50%, var(--surface-2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--r);
+}
+
+.skeleton--block  { height: 140px; border-radius: var(--r) var(--r) 0 0; }
+.skeleton--title  { height: 18px; width: 60%; margin-bottom: .75rem; }
+.skeleton--text   { height: 13px; width: 85%; margin-bottom: .4rem; }
+.skeleton--price  { height: 16px; width: 35%; margin: .5rem 0; }
+.skeleton--btn    { height: 36px; margin-top: .75rem; }
+.skeleton--number { height: 32px; width: 40%; margin: 0 auto .5rem; }
+.skeleton--label  { height: 12px; width: 55%; margin: 0 auto; }
+.skeleton--card   { height: 110px; }
+
 /* ── Responsive ─────────────────────────────── */
 @media (max-width: 700px) {
   .admin-stats { grid-template-columns:1fr 1fr; }

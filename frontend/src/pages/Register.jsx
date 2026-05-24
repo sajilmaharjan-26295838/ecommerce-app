@@ -7,6 +7,7 @@ export default function Register() {
   const [password, setPassword] = useState("")
   const [name, setName] = useState("")
   const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
   const validate = () => {
@@ -20,12 +21,14 @@ export default function Register() {
     e.preventDefault()
     const validationError = validate()
     if (validationError) return setError(validationError)
-    setError("")
+    setLoading(true)
     try {
       await register({ name, email, password })
       navigate("/")
     } catch (err) {
       setError(err.response?.data?.detail || "Registration failed")
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -62,7 +65,9 @@ export default function Register() {
             onChange={e => setPassword(e.target.value)}
             required
           />
-          <button className="auth-btn" type="submit">Create Account</button>
+          <button className="auth-btn" type="submit" disabled={loading}>
+            {loading ? "Creating account…" : "Create Account"}
+          </button>
         </form>
         <p className="auth-link">
           Already have an account? <Link to="/">Sign in</Link>

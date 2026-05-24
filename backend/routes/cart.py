@@ -33,6 +33,7 @@ async def add_to_cart(user_id: str, item: dict, payload: dict = Depends(require_
     else:
         existing = next((i for i in cart["items"] if i["product_id"] == item["product_id"]), None)
         if existing:
+            # $ is MongoDB's positional operator — updates the matched array element in-place
             await db.carts.update_one(
                 {"user_id": user_id, "items.product_id": item["product_id"]},
                 {"$inc": {"items.$.quantity": item["quantity"]}}

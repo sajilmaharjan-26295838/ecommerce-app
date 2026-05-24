@@ -23,15 +23,23 @@ async def get_product(id: str):
 
 @router.post("/")
 async def create_product(data: dict, _=Depends(require_admin)):
+    if not data.get("name", "").strip():
+        raise HTTPException(status_code=400, detail="Product name is required")
     if "price" in data:
-        data["price"] = float(data["price"])
+        price = float(data["price"])
+        if price < 0:
+            raise HTTPException(status_code=400, detail="Price cannot be negative")
+        data["price"] = price
     result = await db.products.insert_one(data)
     return {"id": str(result.inserted_id)}
 
 @router.put("/{id}")
 async def update_product(id: str, data: dict, _=Depends(require_admin)):
     if "price" in data:
-        data["price"] = float(data["price"])
+        price = float(data["price"])
+        if price < 0:
+            raise HTTPException(status_code=400, detail="Price cannot be negative")
+        data["price"] = price
     await db.products.update_one({"_id": ObjectId(id)}, {"$set": data})
     return {"msg": "Product updated"}
 
